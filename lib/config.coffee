@@ -80,6 +80,10 @@ options = {
 
   # Should probably never be changed
   DEVICE_ONLINE_THRESHOLD : {type : 'int', default : 4000}
+  
+  #cwmp auth
+  CWMP_AUTH_USERNAME : {type : 'string', default : ''},
+  CWMP_AUTH_PASSWORD : {type : 'string', default : ''},
 }
 
 allConfig = {}

@@ -32,7 +32,11 @@ localCache = require './local-cache'
 db = require './db'
 logger = require './logger'
 scheduling = require './scheduling'
+auth = require('./auth');
 
+CWMP_AUTH_USERNAME = config.get('CWMP_AUTH_USERNAME')
+
+CWMP_AUTH_PASSWORD = config.get('CWMP_AUTH_PASSWORD')
 
 MAX_CYCLES = 4
 
@@ -802,6 +806,21 @@ listener = (httpRequest, httpResponse) ->
     httpResponse.writeHead 405, {'Allow': 'POST', 'Connection': 'close'}
     httpResponse.end('405 Method Not Allowed')
     return
+    
+  # 鉴权
+  # WWW-Authenticate: Basic realm="User Visible Realm"
+  if CWMP_AUTH_USERNAME and CWMP_AUTH_PASSWORD
+    authorization = httpRequest.headers['authorization'];
+    if not authorization or auth.basic(CWMP_AUTH_USERNAME, CWMP_AUTH_PASSWORD) isnt authorization
+      logger.accessWarn({
+        message: '401',
+      });
+      httpResponse.writeHead(401, {
+        'WWW-Authenticate': 'Basic',
+      });
+      httpResponse.end('401 Unauthorized');
+      return
+  
 
   sessionId = null
   # Separation by comma is important as some devices don't comform to standard

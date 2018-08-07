@@ -1,12 +1,14 @@
 {
+  "CWMP_AUTH_USERNAME":"super",
+  "CWMP_AUTH_PASSWORD":"super",
   "MONGODB_CONNECTION_URL" : "mongodb://127.0.0.1/genieacs",
   "CWMP_INTERFACE" : "0.0.0.0",
-  "CWMP_PORT" : 7547,
+  "CWMP_PORT" : 9102,
   "CWMP_SSL" : false,
   "NBI_INTERFACE" : "0.0.0.0",
-  "NBI_PORT" : 7557,
+  "NBI_PORT" : 9103,
   "FS_INTERFACE" : "0.0.0.0",
-  "FS_PORT" : 7567,
+  "FS_PORT" : 9104,
   "FS_HOSTNAME" : "acs.example.com",
   "DEBUG" : false
 }
