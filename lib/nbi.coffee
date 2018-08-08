@@ -82,7 +82,7 @@ listener = (request, response) ->
   chunks = []
   bytes = 0
 
-  response.setHeader('GenieACS-Version', VERSION)
+  response.setHeader('ACS-Version', VERSION)
 
   request.addListener 'data', (chunk) ->
     chunks.push(chunk)

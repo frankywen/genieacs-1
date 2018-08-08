@@ -4,9 +4,9 @@
   "description": "A TR-069 Auto Configuration Server (ACS)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/genieacs/genieacs.git"
+    "url": "https://github.com/frankywen/gzb-acs.git"
   },
-  "homepage": "https://genieacs.com",
+  "homepage": "https://www.mygzb.com",
   "keywords": [
     "TR-069",
     "CWMP",
@@ -28,7 +28,17 @@
     "redis": "^2.6.5"
   },
   "devDependencies": {
-    "coffeescript": "^1.12.7"
+    "balanced-match": "^1.0.0",
+    "brace-expansion": "^1.1.11",
+    "coffeescript": "^1.12.7",
+    "concat-map": "^0.0.1",
+    "fs.realpath": "^1.0.0",
+    "glob": "^7.1.2",
+    "inflight": "^1.0.6",
+    "ms": "^2.1.1",
+    "path-is-absolute": "^1.0.1",
+    "wrappy": "^1.0.2",
+    "tar-pack": "^3.4.1"
   },
   "engines": {
     "node": ">=6.9.2 <9.0"
@@ -38,6 +48,7 @@
     "compile": "coffee -cb lib/*.coffee",
     "configure": "cp -n ./config/config-sample.json ./config/config.json",
     "install": "npm run configure",
-    "test": "node test"
+    "test": "node test",
+    "pack": "node run pack.js"
   }
 }

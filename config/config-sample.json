@@ -10,5 +10,12 @@
   "FS_INTERFACE" : "0.0.0.0",
   "FS_PORT" : 9104,
   "FS_HOSTNAME" : "acs.example.com",
-  "DEBUG" : false
+  "DEBUG" : false,
+  "CWMP_LOG_FILE" : "log/cwmp.log",
+  "CWMP_ACCESS_LOG_FILE" : "log/access.log",
+  "FS_LOG_FILE" : "log/fs.log",
+  "FS_ACCESS_LOG_FILE" : "log/fsaccess.log",
+  "COOKIES_PATH" : "sessions/",
+  "NBI_LOG_FILE" : "log/nbi.log",
+  "NBI_ACCESS_LOG_FILE" : "log/nbiaccess.log"
 }

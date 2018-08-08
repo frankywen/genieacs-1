@@ -1,0 +1,100 @@
+#!/bin/sh
+#
+# Stops and starts the sms service.
+#
+# chkconfig: 2345 99 1
+# description: GZB acs
+# processname: acs
+# config: /etc/sysconfig/gzb/acs
+# pidfile: /var/run/sms.pid
+#
+### BEGIN INIT INFO
+# Provides: Jiami
+# Required-Start: $local_fs $remote_fs $network $named
+# Required-Stop: $local_fs $remote_fs $network
+# Short-Description: start and stop sms server
+### END INIT INFO
+
+APP_NAME="gzb-acs"
+APP_HOME="/home/ippbx/http/gzb-acs"
+
+CWMP_PATH="${APP_HOME}/bin/genieacs-cwmp"
+NBI_PATH="${APP_HOME}/bin/genieacs-nbi"
+FS_PATH="${APP_HOME}/bin/genieacs-fs"
+
+#service 启动的话 需要 source下profile文件
+[ -f /etc/profile ] && . /etc/profile
+
+#####
+# End setup work
+#####
+
+start() {
+    OLD_PWD=`pwd`
+    cd ${APP_HOME}
+    echo -n $"Starting $APP_NAME: "
+    if [ ! -f ${APP_HOME}/init.lock ]; then
+      npm run compile
+      touch ${APP_HOME}/init.lock
+    fi
+    if [ ! -f ${APP_HOME}/config/config.json ]; then
+      cd ${APP_HOME}
+      npm run configure
+    fi
+    pm2 start ${CWMP_PATH}
+    pm2 start ${NBI_PATH}
+    pm2 start ${FS_PATH}
+    cd ${OLD_PWD}
+}
+
+stop() {
+    echo -n $"Stopping $APP_NAME: "
+    pm2 stop ${CWMP_PATH}
+    pm2 stop ${NBI_PATH}
+    pm2 stop ${FS_PATH}
+}
+
+restart() {
+    stop
+    sleep 1 # give it a few moments to shut down
+    start
+}
+
+load() {
+    start
+}
+
+reload() {
+    stop
+    sleep 5
+    start
+}
+
+
+# Handle how we were called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    load)
+        load
+        ;;
+    reload)
+        reload
+        ;;
+    status) 
+        pm2 ls
+        RETVAL=$?
+        ;;
+    *)
+        echo "Usage $0 {start|stop|restart|status|load|reload}"
+        RETVAL=1
+esac
+
+exit $RETVAL
