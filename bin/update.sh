@@ -69,7 +69,11 @@ function do_start_service(){
   echo_info " start service "
   ln -sf $APP_HOME/bin/$APP_NAME /etc/init.d
 	chkconfig --add $APP_NAME
-  service $APP_NAME restart
+  if [ -f ${APP_HOME}/init.lock ]; then
+    /etc/init.d/$APP_NAME restart
+  else
+    /etc/init.d/$APP_NAME start
+  fi
 }
 
 update_package
